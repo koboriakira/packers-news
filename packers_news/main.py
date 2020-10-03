@@ -25,6 +25,7 @@ def get_packers_com_news():
     news_list = controller.get_news(
         'https://www.packers.com/rss/news', today)
     Slack().post_message(text=news_list.to_markdown())
+    return {"status_code": 200}
 
 
 @app.get("/items/{item_id}")
