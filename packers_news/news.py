@@ -1,6 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
-from typing import List
+from typing import List, Dict
 from datetime import datetime as DateTime
 from datetime import date as Date
 from googletrans import Translator
@@ -15,6 +15,19 @@ class News:
     published_at: DateTime
     link: str
     summary: str
+
+    def to_attachment(self) -> Dict:
+        summary = f'{self.summary}\n{_translate(self.summary)}'
+        return {
+            "title": self.title,
+            "title_link": self.link,
+            "fields": [
+                {
+                    "title": _translate(self.title),
+                    "value": summary
+                }
+            ]
+        }
 
 
 @dataclass
@@ -35,6 +48,9 @@ class NewsList:
                 self.news_list))
         return NewsList(result)
 
+    def to_attachments(self) -> List[Dict]:
+        return list(map(lambda n: n.to_attachment(), self))
+
     def to_markdown(self) -> str:
         str_list: List[str] = []
         for news in self:
@@ -46,6 +62,9 @@ class NewsList:
             str_list.append(f'  - {ja_summary}')
         return "\n".join(str_list)
 
+    def is_not_empty(self) -> bool:
+        return len(self.news_list) > 0
+
     def __iter__(self):
         return self
 
@@ -56,3 +75,7 @@ class NewsList:
         news = self.news_list[self._i]
         self._i += 1
         return news
+
+
+def _translate(text: str) -> str:
+    return translator.translate(text, dest='ja').text

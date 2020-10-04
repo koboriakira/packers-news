@@ -24,15 +24,15 @@ def get_packers_com_news():
     today = Date.today()
     news_list = controller.get_news(
         'https://www.packers.com/rss/news', today)
-    Slack().post_message(text='PACKERS.COMの新着記事', code=news_list.to_markdown())
+    Slack().post_news(text='PACKERS.COMの新着記事', news_list=news_list)
     return {"status_code": 200}
 
 
 @app.post("/packerscom/{date}")
-def get_packers_com_news_by_date(date: Date):
+def get_packers_com_news_by_date(date: str):
     news_list = controller.get_news(
-        'https://www.packers.com/rss/news', date)
-    Slack().post_message(text='PACKERS.COMの新着記事', code=news_list.to_markdown())
+        'https://www.packers.com/rss/news', Date.fromisoformat(date))
+    Slack().post_news(text='PACKERS.COMの新着記事', news_list=news_list)
     return {"status_code": 200}
 
 
@@ -41,15 +41,15 @@ def get_packerswire_news():
     today = Date.today()
     news_list = controller.get_news(
         'https://packerswire.usatoday.com/feed/', today)
-    Slack().post_message(text='PACKERSWIREの新着記事', code=news_list.to_markdown())
+    Slack().post_news(text='PACKERSWIREの新着記事', news_list=news_list)
     return {"status_code": 200}
 
 
 @app.post("/packerswire/{date}")
-def get_packerswire_news_by_date(date: Date):
+def get_packerswire_news_by_date(date: str):
     news_list = controller.get_news(
-        'https://packerswire.usatoday.com/feed/', date)
-    Slack().post_message(text='PACKERSWIREの新着記事', code=news_list.to_markdown())
+        'https://packerswire.usatoday.com/feed/', Date.fromisoformat(date))
+    Slack().post_news(text='PACKERSWIREの新着記事', news_list=news_list)
     return {"status_code": 200}
 
 
