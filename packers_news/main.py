@@ -28,11 +28,27 @@ def get_packers_com_news():
     return {"status_code": 200}
 
 
+@app.post("/packerscom/{date}")
+def get_packers_com_news_by_date(date: Date):
+    news_list = controller.get_news(
+        'https://www.packers.com/rss/news', date)
+    Slack().post_message(text='PACKERS.COMの新着記事', code=news_list.to_markdown())
+    return {"status_code": 200}
+
+
 @app.post("/packerswire/")
 def get_packerswire_news():
     today = Date.today()
     news_list = controller.get_news(
         'https://packerswire.usatoday.com/feed/', today)
+    Slack().post_message(text='PACKERSWIREの新着記事', code=news_list.to_markdown())
+    return {"status_code": 200}
+
+
+@app.post("/packerswire/{date}")
+def get_packerswire_news_by_date(date: Date):
+    news_list = controller.get_news(
+        'https://packerswire.usatoday.com/feed/', date)
     Slack().post_message(text='PACKERSWIREの新着記事', code=news_list.to_markdown())
     return {"status_code": 200}
 
