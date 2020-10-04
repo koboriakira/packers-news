@@ -24,7 +24,16 @@ def get_packers_com_news():
     today = Date.today()
     news_list = controller.get_news(
         'https://www.packers.com/rss/news', today)
-    Slack().post_message(text=news_list.to_markdown())
+    Slack().post_message(text='PACKERS.COMの新着記事', code=news_list.to_markdown())
+    return {"status_code": 200}
+
+
+@app.post("/packerswire/")
+def get_packerswire_news():
+    today = Date.today()
+    news_list = controller.get_news(
+        'https://packerswire.usatoday.com/feed/', today)
+    Slack().post_message(text='PACKERSWIREの新着記事', code=news_list.to_markdown())
     return {"status_code": 200}
 
 

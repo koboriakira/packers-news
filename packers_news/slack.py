@@ -13,9 +13,9 @@ class Slack:
         self.webhook: str = str(
             os.getenv('SLACK_DEVELOPMENT_WEBHOOK'))
 
-    def post_message(self, text: str = TEST_TEXT) -> None:
+    def post_message(self, text: str = TEST_TEXT, code: str = '') -> None:
         data: Dict[str, Any] = {
-            "text": f'```\n{text}\n```'
+            "text": text + f'\n```\n{code}\n```' if code != '' else text,
         }
         response = requests.post(
             self.webhook,
