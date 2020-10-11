@@ -1,4 +1,4 @@
-from datetime import date as Date
+from datetime import datetime as DateTime
 from typing import List
 from packers_news.news import News, NewsList
 import requests
@@ -37,14 +37,14 @@ def _get_link(article) -> str:
     return f'{ENDPOINT}{article.attrs["data-src"]}'
 
 
-def _get_date(article) -> Date:
+def _get_date(article) -> DateTime:
     for span in article.select('span'):
         if 'data-dateformat' in span.attrs:
             date_str_list = span.text.split(' ')
             month = _get_month(date_str_list[0])
             day = int(date_str_list[1].replace(',', ''))
             year = int(date_str_list[2])
-            return Date(year, month, day)
+            return DateTime(year, month, day)
     raise ValueError
 
 
