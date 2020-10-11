@@ -1,3 +1,4 @@
+from packers_news.news import NewsList
 from typing import Optional
 from fastapi import FastAPI
 from pydantic import BaseModel
@@ -22,34 +23,57 @@ def read_root():
 @app.post("/packerscom/")
 def get_packers_com_news():
     today = Date.today()
-    news_list = controller.get_news(
+    news_list: NewsList = controller.get_news(
         'https://www.packers.com/rss/news', today)
-    Slack().post_news(text='PACKERS.COMの新着記事', news_list=news_list)
+    Slack().post(
+        text='PACKERS.COMの新着記事',
+        content=news_list.to_markdown(),
+        filename=f'packers_{today}.md')
     return {"status_code": 200}
 
 
 @app.post("/packerscom/{date}")
 def get_packers_com_news_by_date(date: str):
-    news_list = controller.get_news(
+    news_list: NewsList = controller.get_news(
         'https://www.packers.com/rss/news', Date.fromisoformat(date))
-    Slack().post_news(text='PACKERS.COMの新着記事', news_list=news_list)
+    Slack().post(
+        text='PACKERS.COMの新着記事',
+        content=news_list.to_markdown(),
+        filename=f'packers_{date}.md')
     return {"status_code": 200}
 
 
 @app.post("/packerswire/")
 def get_packerswire_news():
     today = Date.today()
-    news_list = controller.get_news(
+    news_list: NewsList = controller.get_news(
         'https://packerswire.usatoday.com/feed/', today)
-    Slack().post_news(text='PACKERSWIREの新着記事', news_list=news_list)
+    Slack().post(
+        text='PACKERSWIREの新着記事',
+        content=news_list.to_markdown(),
+        filename=f'packerswire_{today}.md')
     return {"status_code": 200}
 
 
 @app.post("/packerswire/{date}")
 def get_packerswire_news_by_date(date: str):
-    news_list = controller.get_news(
+    today = Date.today()
+    news_list: NewsList = controller.get_espn_news(date=today)
+    Slack().post(
+        text='ESPNの新着記事',
+        content=news_list.to_markdown(),
+        filename=f'espn_{date}.md')
+    return {"status_code": 200}
+
+
+@app.post("/packers-espn/")
+def get_packers_espn():
+    news_list: NewsList = controller.get_news(
         'https://packerswire.usatoday.com/feed/', Date.fromisoformat(date))
-    Slack().post_news(text='PACKERSWIREの新着記事', news_list=news_list)
+    Slack().post(
+        text='PACKERSWIREの新着記事',
+        content=news_list.to_markdown(),
+        filename=f'packerswire_{date}.md')
     return {"status_code": 200}
 
 

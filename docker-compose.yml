@@ -8,9 +8,10 @@ services:
       - ./packers_news:/work/packers_news
       # Firestoreなどを利用する場合は認証キーを入れる
       # - ./credentials.json:/work/credentials.json
+    env_file:
+      - .env
     environment:
       - GOOGLE_APPLICATION_CREDENTIALS=/work/credentials.json
-      - SLACK_DEVELOPMENT_WEBHOOK=$SLACK_DEVELOPMENT_WEBHOOK
     command: >
       uvicorn packers_news.main:app
       --host 0.0.0.0
