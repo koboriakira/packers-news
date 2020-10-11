@@ -25,6 +25,9 @@ def get_packers_com_news():
     today = Date.today()
     news_list: NewsList = controller.get_news(
         'https://www.packers.com/rss/news', today)
+    controller.add_todoist_reading_list(
+        task_title=f'Packers.com {today}',
+        news_list=news_list)
     Slack().post(
         text='PACKERS.COMの新着記事',
         content=news_list.to_markdown(),
@@ -48,6 +51,9 @@ def get_packerswire_news():
     today = Date.today()
     news_list: NewsList = controller.get_news(
         'https://packerswire.usatoday.com/feed/', today)
+    controller.add_todoist_reading_list(
+        task_title=f'PackersWire {today}',
+        news_list=news_list)
     Slack().post(
         text='PACKERSWIREの新着記事',
         content=news_list.to_markdown(),
@@ -69,13 +75,14 @@ def get_packerswire_news_by_date(date: str):
 @app.post("/packers-espn/")
 def get_packers_espn():
     today = Date.today()
-    news_list: NewsList = controller.get_news(
-        'https://packerswire.usatoday.com/feed/',
-        Date.fromisoformat(today))
+    news_list: NewsList = controller.get_espn_news(date=today)
+    controller.add_todoist_reading_list(
+        task_title=f'ESPN {today}',
+        news_list=news_list)
     Slack().post(
-        text='PACKERSWIREの新着記事',
+        text='ESPNの新着記事',
         content=news_list.to_markdown(),
-        filename=f'packerswire_{today}.md')
+        filename=f'espn_{today}.md')
     return {"status_code": 200}
 
 

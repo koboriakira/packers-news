@@ -23,11 +23,14 @@ class News:
             "title_link": self.link,
             "fields": [
                 {
-                    "title": _translate(self.title),
+                    "title": self.translated_title(),
                     "value": summary
                 }
             ]
         }
+
+    def translated_title(self) -> str:
+        return _translate(self.title)
 
 
 @dataclass
@@ -61,6 +64,10 @@ class NewsList:
             ja_summary = translator.translate(news.summary, dest='ja').text
             str_list.append(f'  - {ja_summary}')
         return "\n".join(str_list)
+
+    def to_todoist_titles(self) -> List[str]:
+        return list(
+            map(lambda n: f'{n.translated_title()} {n.link}', self.news_list))
 
     def is_not_empty(self) -> bool:
         return len(self.news_list) > 0
