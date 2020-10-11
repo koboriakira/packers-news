@@ -68,12 +68,14 @@ def get_packerswire_news_by_date(date: str):
 
 @app.post("/packers-espn/")
 def get_packers_espn():
+    today = Date.today()
     news_list: NewsList = controller.get_news(
-        'https://packerswire.usatoday.com/feed/', Date.fromisoformat(date))
+        'https://packerswire.usatoday.com/feed/',
+        Date.fromisoformat(today))
     Slack().post(
         text='PACKERSWIREの新着記事',
         content=news_list.to_markdown(),
-        filename=f'packerswire_{date}.md')
+        filename=f'packerswire_{today}.md')
     return {"status_code": 200}
 
 
