@@ -41,9 +41,9 @@ class NewsList:
     def extract_news(self, date: Date) -> NewsList:
         # print(date.year, date.month, date.day)
         begin_published_at = DateTime(
-            date.year, date.month, date.day - 1, 18, 0, 0)
+            date.year, date.month, date.day - 1, 12, 0, 0)
         end_published_at = DateTime(
-            date.year, date.month, date.day, 18, 0, 0)
+            date.year, date.month, date.day, 12, 0, 0)
 
         result = list(
             filter(

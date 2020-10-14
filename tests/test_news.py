@@ -5,7 +5,7 @@ from datetime import date as Date
 
 def test_extract_today_news():
     """
-    10/2 18:00 - 10/3 18:00までを「10/3の日のニュース」とする
+    10/2 12:00 - 10/3 12:00までを「10/3の日のニュース」とする
     """
     # setup
     title = summary = link = 'A'
@@ -23,14 +23,14 @@ def test_extract_today_news():
         link=link,
         published_at=published_at)
     title = summary = link = 'C'
-    published_at = DateTime(2020, 10, 3, 17, 0, 0)
+    published_at = DateTime(2020, 10, 3, 11, 0, 0)
     include_news_C = News(
         title=title,
         summary=summary,
         link=link,
         published_at=published_at)
     title = summary = link = 'D'
-    published_at = DateTime(2020, 10, 3, 19, 0, 0)
+    published_at = DateTime(2020, 10, 3, 13, 0, 0)
     exclude_news_D = News(
         title=title,
         summary=summary,
