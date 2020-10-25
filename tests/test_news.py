@@ -5,32 +5,32 @@ from datetime import date as Date
 
 def test_extract_today_news():
     """
-    10/2 12:00 - 10/3 12:00までを「10/3の日のニュース」とする
+    10/2 08:00 - 10/3 08:00までを「10/3の日のニュース」とする
     """
     # setup
     title = summary = link = 'A'
-    published_at = DateTime(2020, 10, 3, 9, 0, 0)
+    published_at = DateTime(2020, 10, 2, 9, 0, 0)
     include_news_A = News(
         title=title,
         summary=summary,
         link=link,
         published_at=published_at)
     title = summary = link = 'B'
-    published_at = DateTime(2020, 10, 2, 9, 0, 0)
+    published_at = DateTime(2020, 10, 2, 7, 0, 0)
     exclude_news_B = News(
         title=title,
         summary=summary,
         link=link,
         published_at=published_at)
     title = summary = link = 'C'
-    published_at = DateTime(2020, 10, 3, 11, 0, 0)
+    published_at = DateTime(2020, 10, 3, 7, 0, 0)
     include_news_C = News(
         title=title,
         summary=summary,
         link=link,
         published_at=published_at)
     title = summary = link = 'D'
-    published_at = DateTime(2020, 10, 3, 13, 0, 0)
+    published_at = DateTime(2020, 10, 3, 9, 0, 0)
     exclude_news_D = News(
         title=title,
         summary=summary,
