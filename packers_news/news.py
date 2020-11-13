@@ -39,7 +39,6 @@ class NewsList:
     _i: int = field(init=False, default=0)
 
     def extract_news(self, date: Date) -> NewsList:
-        # print(date.year, date.month, date.day)
         begin_published_at = DateTime(
             date.year, date.month, date.day - 1, 8, 0, 0)
         end_published_at = DateTime(

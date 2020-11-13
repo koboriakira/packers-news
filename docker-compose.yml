@@ -3,7 +3,7 @@ services:
   app:
     build: .
     ports:
-      - '8000:8080'
+      - '8100:8080'
     volumes:
       - ./packers_news:/work/packers_news
       # Firestoreなどを利用する場合は認証キーを入れる

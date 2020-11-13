@@ -1,10 +1,6 @@
-from typing import Dict, Any
-import json
-import requests
 import os
 from slack import WebClient
 from slack.errors import SlackApiError
-from packers_news.news import NewsList
 
 client = WebClient(token=os.getenv('OAUTH_ACCESS_TOKEN'))
 
