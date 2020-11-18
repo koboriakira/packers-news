@@ -4,9 +4,11 @@ from typing import List, Dict
 from datetime import datetime as DateTime
 from datetime import date as Date
 from googletrans import Translator
-
+from datetime import timezone, timedelta
 
 translator = Translator()
+
+tzinfo = timezone(timedelta(hours=9))
 
 
 @dataclass
@@ -40,9 +42,9 @@ class NewsList:
 
     def extract_news(self, date: Date) -> NewsList:
         begin_published_at = DateTime(
-            date.year, date.month, date.day - 1, 8, 0, 0)
+            date.year, date.month, date.day - 1, 8, 0, 0, 0, tzinfo=tzinfo)
         end_published_at = DateTime(
-            date.year, date.month, date.day, 8, 0, 0)
+            date.year, date.month, date.day, 8, 0, 0, 0, tzinfo=tzinfo)
 
         result = list(
             filter(
@@ -57,10 +59,10 @@ class NewsList:
         str_list: List[str] = []
         for news in self:
             str_list.append(f'- [{news.title}]({news.link})')
-            ja_title = translator.translate(news.title, dest='ja').text
+            ja_title = _translate(text=news.title)
             str_list.append(f'  - {ja_title}')
             str_list.append(f'  - {news.summary}')
-            ja_summary = translator.translate(news.summary, dest='ja').text
+            ja_summary = _translate(text=news.summary)
             str_list.append(f'  - {ja_summary}')
         return "\n".join(str_list)
 
@@ -84,4 +86,8 @@ class NewsList:
 
 
 def _translate(text: str) -> str:
-    return translator.translate(text, dest='ja').text
+    try:
+        return translator.translate(text, dest='ja').text
+    except Exception:
+        print('can\'t translate')
+        return ''
